@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,45 +11,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.zweifel.app.myapplication1.MainActivity">
 
-    <EditText
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/serverhost" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:text="submit settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/settingsSubmit"
-        android:layout_below="@+id/serverhost"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp"
-        android:onClick="submitSettings" />
+        <Button
+            android:text="Server Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/openServerSettings"
+            android:onClick="openServerSettings"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1" />
 
-    <Button
-        android:text="reload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/settingsSubmit"
-        android:layout_toRightOf="@+id/settingsSubmit"
-        android:layout_toEndOf="@+id/settingsSubmit"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:id="@+id/button4"
-        android:onClick="reloadButton" />
+        <Button
+            android:text="Client Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/settingsSubmit"
+            android:layout_toRightOf="@+id/settingsSubmit"
+            android:layout_toEndOf="@+id/settingsSubmit"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:id="@+id/openClientSettings"
+            android:onClick="openClientSettings"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"/>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/settingsSubmit"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/list1" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnSpan="2"/>
+
+    </GridLayout>
 
 </RelativeLayout>

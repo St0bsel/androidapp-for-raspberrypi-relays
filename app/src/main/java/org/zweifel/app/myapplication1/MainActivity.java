@@ -1,10 +1,15 @@
 package org.zweifel.app.myapplication1;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,11 +32,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import static android.R.drawable.presence_offline;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,19 +73,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getinfo(){
+    public String getinfo(){
         DownloadTask task = new DownloadTask();
         String result = null;
 
         try {
-            String serverhost = getSharedPreferences("get", "serverhost", "0");
+            String serverhost = functionSharedPreferences("get", "serverhost", "0");
             result = task.execute(serverhost + "php/getarray.php").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.i("Result: ",result);
 
         //process json data
         try {
@@ -131,14 +139,13 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Log.i("result", "result "+result);
                 }
             });
-
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public class getrequest extends AsyncTask<String, Void, String>{
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... postParameters) {
             try {
-                String serverhost = getSharedPreferences("get", "serverhost", "0");
+                String serverhost = functionSharedPreferences("get", "serverhost", "0");
                 String result ="";
                 URL url = new URL(serverhost + "php/change.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -179,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getSharedPreferences(String method, String name, String value){
+    public String functionSharedPreferences(String method, String name, String value){
         SharedPreferences sharedPreferences = this.getSharedPreferences("org.zweifel.app.myapplication1", Context.MODE_PRIVATE);
         if (method == "get"){
             String result = sharedPreferences.getString(name,"");
@@ -195,12 +202,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void submitSettings (View view){
+    /*public void submitSettings (View view){
         EditText serverhostField = (EditText) findViewById(R.id.serverhost);
         Log.i("serverhost", serverhostField.getText().toString());
         String result = getSharedPreferences("set", "serverhost", serverhostField.getText().toString());
         clearList();
-    }
+    }*/
 
     public void clearList(){
         ListView list = (ListView) findViewById(R.id.list1);
@@ -208,14 +215,37 @@ public class MainActivity extends AppCompatActivity {
         getinfo();
     }
 
-    public void reloadButton(View view){
-        clearList();
+    public void openClientSettings(View view){
+        Intent intent = new Intent(this, ClientSettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void openServerSettings(View view){
+        Intent intent = new Intent(this, ServerSettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getinfo();
+        if (getinfo() == "Faild"){
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Connection error")
+                    .setMessage("The app has no connection to the server, please go to the Client Settings and change the server")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.i("alert", "alert accepted");
+                        }
+                    })
+                    .show();
+        }
+        else {
+
+        }
+
+        //functionSharedPreferences("set","serverhost", "asdf");
     }
 }
