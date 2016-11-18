@@ -43,8 +43,8 @@ import static android.R.drawable.presence_offline;
 
 public class MainActivity extends AppCompatActivity {
 
-    String serverhost = "";
 
+    //function which returns text from url
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //function to get relaydata and show it in listview
     public String getinfo(){
+
         DownloadTask task = new DownloadTask();
         String result = null;
 
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //process json data
+        //process json data recived from url
         try {
             JSONArray recivedData = new JSONArray(result);
             JSONArray recivedData1 = recivedData.getJSONArray(0);
@@ -114,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    //Parameters Array for post request
                     String[][] postParameters = {
                             {"change", String.valueOf(i)},
                             /*{"name", ""},
@@ -122,15 +126,16 @@ public class MainActivity extends AppCompatActivity {
                             {"method", "0"}
                     };
 
+                    //generate String out of array
                     String postParam = "";
                     for (int j = 0; j < postParameters.length; j++){
                         postParam += postParameters[j][0] + "=" + postParameters[j][1] + "&";
                     }
 
-                    getrequest request = new getrequest();
-                    String result = null;
-
                     try {
+                        //send post request to change relay status and rebuild listview
+                        getrequest request = new getrequest();
+                        String result = null;
                         result = request.execute(postParam).get();
                         clearList();
                     } catch (InterruptedException e) {
@@ -148,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
+    //function which sends a post request to a url
     public class getrequest extends AsyncTask<String, Void, String>{
 
         @Override
@@ -202,13 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*public void submitSettings (View view){
-        EditText serverhostField = (EditText) findViewById(R.id.serverhost);
-        Log.i("serverhost", serverhostField.getText().toString());
-        String result = getSharedPreferences("set", "serverhost", serverhostField.getText().toString());
-        clearList();
-    }*/
-
     public void clearList(){
         ListView list = (ListView) findViewById(R.id.list1);
         list.setAdapter(null);
@@ -225,10 +224,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void refreshList(View view){
+        clearList();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //if the connection to the server fails
         if (getinfo() == "Faild"){
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -246,6 +251,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        //functionSharedPreferences("set","serverhost", "asdf");
     }
 }

@@ -10,16 +10,151 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.zweifel.app.myapplication1.ServerSettingsActivity">
 
-    <Button
-        android:text="back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="12dp"
-        android:id="@+id/serverSettingsBack"
-        android:onClick="serverSettingsBack" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Server Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cleintSettingsName"
+            android:textSize="30sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnSpan="2"/>
+
+        <Button
+            android:text="remove relay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/removeRelay"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:onClick="serverSettingsPresed"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:text="relay settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relaySettings"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:onClick="serverSettingsPresed"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:text="remove switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/removeSwitch"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:onClick="serverSettingsPresed"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:text="switch settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switchSettings"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:onClick="serverSettingsPresed"
+            android:layout_columnWeight="1"/>
+
+    </GridLayout>
+
+
+    <GridLayout
+        android:id="@+id/gridSettings"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idText"
+            android:layout_row="2"
+            android:layout_column="0"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/idInput"
+            android:layout_row="3"
+            android:layout_column="0" />
+
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameText"
+            android:layout_row="4"
+            android:layout_column="0"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text=""
+            android:ems="10"
+            android:id="@+id/nameInput"
+            android:layout_row="5"
+            android:layout_column="0" />
+
+        <TextView
+            android:text="GPIO PIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gpiopinText"
+            android:layout_row="6"
+            android:layout_column="0"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/gpiopinInput"
+            android:layout_row="7"
+            android:layout_column="0" />
+
+        <TextView
+            android:text="Relay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relayText"
+            android:layout_row="8"
+            android:layout_column="0"
+            android:visibility="gone"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/relayInput"
+            android:layout_row="9"
+            android:layout_column="0"
+            android:visibility="gone"/>
+
+        <Button
+            android:text="save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submitSettings"
+            android:layout_row="10"
+            android:layout_column="0" />
+
+    </GridLayout>
+
 </RelativeLayout>
